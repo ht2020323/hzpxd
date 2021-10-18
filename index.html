@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Learn Chinese</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
+    <link rel="stylesheet" href="https
+    ://www.w3schools.com/lib/w3-colors-highway.css">
+    <link rel="shortcut icon" href="16.ico" />
+    <style>
+        .w3-allerta {
+            font-family: "Allerta Stencil", Sans-serif;
+        }
+    </style>
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.0/dist/hanzi-writer.min.js"></script>
+    <SCRIPT language=Javascript src="pyshengdiao.js"></SCRIPT>
+    <script>
+    </script>
+    <script type="text/javascript">
+    </script>
+</head>
+
+<body>
+    <div class="w3-container w3-green w3-center w3-allerta">
+        <p class="w3-xlarge">Follow me</p>
+        <input type="text" id="ttsText" value="some text ... ">
+        <input type="button" id="tts_btn" onclick="doTTS()" value="讀音">
+        <button onclick="myFunction()">拼寫</button>
+        <button onclick="shuaxin()">清除</button>
+        <div id="character-target-2" class="w3-panel w3-black">
+            <p id="pinyin" style="font-size: 38px;">pinyin</p>
+        </div>
+        <div id="character-target-1" class="w3-panel w3-black">
+            <!-- //通过svm画方格 -->
+            <svg width="300" height="300" style="border: 1px solid rgb(221,221,221);" id="mizige">
+                <line x1="0" y1="0" x2="300" y2="300" stroke="#DDD" />
+                <line x1="300" y1="0" x2="0" y2="300" stroke="#DDD" />
+                <line x1="150" y1="0" x2="150" y2="300" stroke="#DDD" />
+                <line x1="0" y1="150" x2="300" y2="150" stroke="#DDD" />
+            </svg>
+        </div>
+        <div id="bdtts_div_id">
+            <audio id="tts_autio_id" autoplay="autoplay">
+                <source id="tts_source_id" src="http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=3&text=播报内容"
+                    type="audio/mpeg">
+                <embed id="tts_embed_id" height="0" width="0" src="">
+            </audio>
+        </div>
+    </div>
+    <script>
+        function shuaxin() {
+            location.reload();
+        }
+
+        function myFunction() {
+            document.getElementById("pinyin").innerHTML = (trans());
+            var x = document.getElementById("ttsText").value;
+            var writer = HanziWriter.create('mizige', x, {
+                width: 300,
+                height: 300,
+                padding: 15,
+                strokeColor: '#EE00FF', // pink
+                radicalColor: '#337ab7', // blue
+                delayBetweenLoops: 3000
+            });
+            writer.loopCharacterAnimation();
+        }
+
+        function doTTS() {
+            var ttsDiv = document.getElementById('bdtts_div_id');
+            var ttsAudio = document.getElementById('tts_autio_id');
+            var ttsText = document.getElementById('ttsText').value;
+
+            // 这样为什么替换不了播放内容
+            /*var ssrcc = 'http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=10&text='+ttsText;
+            document.getElementById('tts_source_id').src=ssrcc;*/
+
+            // 这样就可实现播放内容的替换了
+            ttsDiv.removeChild(ttsAudio);
+            var au1 = '<audio id="tts_autio_id" autoplay="autoplay">';
+            var sss = '<source id="tts_source_id" src="http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=3&text=' + ttsText + '" type="audio/mpeg">';
+            var eee = '<embed id="tts_embed_id" height="0" width="0" src="">';
+            var au2 = '</audio>';
+            ttsDiv.innerHTML = au1 + sss + eee + au2;
+
+            ttsAudio = document.getElementById('tts_autio_id');
+
+            ttsAudio.play();
+        }
+    </script>
+    <footer class="w3-container w3-theme" style="padding:32px">
+        <p>普通話教學漢字拼音書寫演示實驗</p>
+    </footer>
+</body>
+
+</html>
